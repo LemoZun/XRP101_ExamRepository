@@ -48,6 +48,7 @@ public class BulletController : PooledBehaviour
     private IEnumerator DeactivateRoutine()
     {
         yield return _wait;
+        _rigidbody.velocity = Vector3.zero; //리턴 전 속도를 초기화해줌
         ReturnPool();
     }
 
