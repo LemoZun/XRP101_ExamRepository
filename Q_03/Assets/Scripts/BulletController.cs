@@ -24,10 +24,11 @@ public class BulletController : PooledBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            other
-                .GetComponent<PlayerController>()
+            Debug.Log("플레이어가 총알에 피격됨");
+            other.gameObject
+                .GetComponentInParent<PlayerController>() // 충돌한 body의 부모인 Player의 컴포넌트를 참조하도록 변경
                 .TakeHit(_damageValue);
         }
     }
@@ -35,7 +36,8 @@ public class BulletController : PooledBehaviour
     private void Init()
     {
         _wait = new WaitForSeconds(_deactivateTime);
-        _rigidbody = GetComponent<Rigidbody>();
+        //_rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponentInChildren<Rigidbody>(); //자식인 body의 리지드바디를 참조하도록 변경
     }
     
     private void Fire()
@@ -55,6 +57,7 @@ public class BulletController : PooledBehaviour
         gameObject.SetActive(false);
     }
 
+    //불릿의 OnTaken이 구현된 장소
     public override void OnTaken<T>(T t)
     {
         if (!(t is Transform)) return;
