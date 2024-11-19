@@ -8,6 +8,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        //Init();
+    }
+
+    private void Start()
+    {
         Init();
     }
 
@@ -28,7 +33,10 @@ public class PlayerMovement : MonoBehaviour
         direction.z = Input.GetAxisRaw("Vertical");
 
         if (direction == Vector3.zero) return;
-        
+
+        //대각선 이동시 직선이동과 같은 속도로 이동시키기 위해 정규화를 해줌
+        direction = direction.normalized;
+
         transform.Translate(_status.MoveSpeed * Time.deltaTime * direction);
     }
 }
