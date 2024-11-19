@@ -31,12 +31,14 @@ public class PopupController : MonoBehaviour
     private void Activate()
     {
         _popup.gameObject.SetActive(true);
-        GameManager.Intance.Pause();
+        GameManager.Instance.Pause();
         StartCoroutine(DeactivateRoutine());
     }
 
     private void Deactivate()
     {
+        //GameManager.Instance.Pause();
+        GameManager.Instance.isPaused = false;
         _popup.gameObject.SetActive(false);
     }
 

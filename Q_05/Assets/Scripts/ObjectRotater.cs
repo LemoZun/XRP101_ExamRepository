@@ -6,6 +6,7 @@ public class ObjectRotater : MonoBehaviour
 {
     private void Update()
     {
-        transform.Rotate(Vector3.up * GameManager.Intance.Score);
+        if(!GameManager.Instance.isPaused)
+            transform.Rotate(Vector3.up * GameManager.Instance.Score);
     }
 }

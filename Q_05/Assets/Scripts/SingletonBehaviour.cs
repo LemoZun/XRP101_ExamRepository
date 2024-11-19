@@ -5,7 +5,7 @@ using UnityEngine;
 public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
-    public static T Intance
+    public static T Instance
     {
         get
         {
@@ -20,7 +20,11 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 
     protected void SingletonInit()
     {
-        _instance = GetComponent<T>();
-        DontDestroyOnLoad(gameObject);
+        if(_instance == null) // null일때만 수행하도록 조건 추가
+        {
+            _instance = GetComponent<T>();
+            DontDestroyOnLoad(gameObject);
+        }
+        
     }
 }
