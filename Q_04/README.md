@@ -18,4 +18,17 @@
 제시된 프로젝트에서 발생하는 `문제들을 모두 서술`하고 올바르게 동작하도록 `소스코드를 개선`하시오.
 
 ## 답안
-- 
+- ### damagable.TakeHit에서 널 레퍼런스 오류 발생
+  - 공격은 OverLapSphere로 구형의 범위를 체크해서 공격받는 객체를 판정
+  - 공격 받는 NormalMonster는 공격 받은 후 사라지는것을 확인
+  - ShieldMonster는 사라지지 않는것을 확인
+  - IDamagable은 인터페이스로 되어있으며 노말 몬스터는 해당 인터페이스가 존재하고 쉴드 몬스터는 존재하지 않음
+  - 쉴드몬스터는 IDamagable 인터페이스를 상속받지 않고 damagable 변수에 null이 저장되는데 이때 takeHit 메서드를 실행하려고 하면 널 레퍼런스 오류가 발생 
+  - **해결1** if(damagable != null) 조건을 달아주어 null이 아닐경우만 TakeHit 실행
+    - 해결됐지만 이후 스택오버플로우 오류 발생
+- ### 어택 상태 진입 후 Idle상태로 돌아오지 않음
+  - 해결1의 상태를 해결하니 다음으로 나온 문제
+  - 에러메세지를 보니 상태머신의 ChangeState와 공격상태의 Exit를 무한 실행해 스택 오버플로우 발생
+  - 공격 코루틴이 끝날때 Exit를 실행, Exit에서 ChangeState를 실행해주고 있고 ChangeState에서 현 상태의 Exit를 실행해주어 무한 반복 발생
+  - **해결2** 이전 프로젝트를 할때 겪어봤던 문제라 공격이 끝난 후 ChangeState를 실행하고 어택상태의 Exit의 ChangeState를 지워서 해결
+  - 
